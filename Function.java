@@ -1,5 +1,5 @@
 public class Function {
-    private static String function;
+    protected static String function;
     
     public Function() {}
 

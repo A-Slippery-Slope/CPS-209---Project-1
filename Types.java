@@ -1,0 +1,3 @@
+public enum Types {
+    MULTIPLICATION, QUOTIENT, DEPENDANT, NEITHER;
+}
