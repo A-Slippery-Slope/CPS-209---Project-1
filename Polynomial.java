@@ -1,8 +1,10 @@
+import java.util.ArrayList;
+
 public class Polynomial extends Function {
-    private final int[] coeff;
+    private ArrayList<Integer> coeff;
     private final char variable;
     
-    public Polynomial(int[] coefficients, char variable) 
+    public Polynomial(ArrayList<Integer> coefficients, char variable) 
     {
         this.variable = variable;
         coeff = removeZeros(coefficients);
@@ -10,42 +12,36 @@ public class Polynomial extends Function {
         function = this.toString();
     }
 
-    private int[] removeZeros(int[] coefficients) {
-        int length = coefficients.length;
-        for (int i = coefficients.length - 1; i >= 0; i--) {
-            if (coefficients[i] == 0) length--;
+    private ArrayList<Integer> removeZeros(ArrayList<Integer> coefficients) {
+        int length = coefficients.size();
+        for (int i = coefficients.size() - 1; i >= 0; i--) {
+            if (coefficients.get(i) == 0) length--;
             else break;
         }
 
-        if (length < 1) length = 1;
-        
-        int[] c = new int[length];
-
-        System.arraycopy(coefficients, 0, c, 0, length);
-
-        return c;
+        return new ArrayList<>(coefficients.subList(0, length));
     }
     
     public int getDegree() 
     {
-        return coeff.length - 1;
+        return coeff.size() - 1;
     }
     
     public int getCoefficient(int k) 
     {
-        if (k < 0 || k > coeff.length - 1) return 0;
-        return coeff[k];
+        if (k < 0 || k > coeff.size() - 1) return 0;
+        return coeff.get(k);
     }
     
     public long evaluate(int x)
     {
         long sum = 0;
-        for (int i = 0; i < coeff.length; i++) {
+        for (int i = 0; i < coeff.size(); i++) {
             long temp = 1;
             for (int j = 0; j < i; j++) {
                 temp *= x;
             }
-            sum += temp * coeff[i];
+            sum += temp * coeff.get(i);
         }
 
         return sum;
@@ -57,10 +53,11 @@ public class Polynomial extends Function {
             super.add(other); 
             return this;
         }
-        int[] added = new int[Math.max(getDegree(), other.getDegree()) + 1];
+        ArrayList<Integer> added = new ArrayList<>(coeff);
 
-        for (int i = 0; i < added.length; i++) {
-            added[i] = getCoefficient(i) + other.getCoefficient(i);
+        for (int i = 0; i < other.coeff.size(); i++) {
+            if (i < added.size()) added.set(i, added.get(i) + other.coeff.get(i));
+            else added.add(other.coeff.get(i));
         }
 
         return new Polynomial(added, variable);

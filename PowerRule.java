@@ -6,6 +6,6 @@ public class PowerRule implements Rule {
     }
 
     public static boolean isValid(Expression expression) {
-        return false;
+        return expression.getType() == Types.POLYNOMIAL;
     }
 }

@@ -16,7 +16,7 @@ public class Expression {
             case DEPENDANT:
                 this.terms = new Polynomial[1];
                 break;
-            case NEITHER:
+            case POLYNOMIAL:
                 this.terms = new Polynomial[1];
                 break;
             default:
@@ -29,6 +29,10 @@ public class Expression {
     public Polynomial getTerm(int k) {
         if (k < 0 || k > terms.length - 1) return null;
         return terms[k];
+    }
+
+    public Types getType() {
+        return type;
     }
 
     public void randomizeTerms() {
