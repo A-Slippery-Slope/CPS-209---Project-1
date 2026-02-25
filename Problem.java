@@ -1,5 +1,6 @@
 public class Problem {
     private String problem;
+    private Equation equation;
     private Types rightType, leftType;
     private final char leftVar, rightVar;
     
@@ -27,8 +28,12 @@ public class Problem {
     }
     
     public void generateProblem() {
-        Equation equation = new Equation(leftType, rightType, leftVar, rightVar);
+        equation = new Equation(leftType, rightType, leftVar, rightVar);
         this.problem = equation.toString();
+    }
+
+    public Equation getEquation() {
+        return equation;
     }
 
     @Override

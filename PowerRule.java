@@ -1,8 +1,10 @@
 public class PowerRule implements Rule {
     public static boolean apply(Expression expression, char varRespectTo) {
         if (!isValid(expression)) return false;
+
         if (expression.getVariable() != varRespectTo) {
             while (expression.getTerm(0).getDegree() > 1) expression.getTerm(0).reduceDegree();
+            expression.getTerm(0).scaleCoefficient(0, 0);
             return true;
         }
 

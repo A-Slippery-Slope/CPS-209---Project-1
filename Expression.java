@@ -58,6 +58,17 @@ public class Expression {
         }
     }
 
+    public String showDerivative() {
+        String str = "";
+        switch (type) {
+            case MULTIPLICATION -> str = "(" + terms[0] + ")' * (" + terms[1] + ") + (" + terms[0] + ") * (" + terms[1] + ")'";
+            case QUOTIENT -> str = "(" + terms[0] + ")' * (" + terms[1] + ") - (" + terms[0] + ") * (" + terms[1] + ")' / (" + terms[1] + ")^2";
+            case DEPENDANT -> str = "dy/d" + variable;
+            case POLYNOMIAL -> str = "d/d" + variable + "(" + toString() + ")";
+        }
+        return str;
+    }
+
     @Override
     public String toString() {
         String str = "";

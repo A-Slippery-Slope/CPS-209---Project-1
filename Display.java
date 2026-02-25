@@ -14,7 +14,6 @@ public class Display {
             switch (input.toUpperCase()) {
                 case "MULTIPLICATION" -> problem = new Problem(Types.MULTIPLICATION);
                 case "QUOTIENT" -> problem = new Problem(Types.QUOTIENT);
-                case "DEPENDANT" -> problem = new Problem(Types.DEPENDANT);
                 case "POLYNOMIAL" -> problem = new Problem(Types.POLYNOMIAL);
                 case "RANDOM" -> problem = new Problem();
                 case "QUIT" -> {
@@ -27,9 +26,19 @@ public class Display {
                 }
             }
 
-            System.out.println("\n" + problem.toString() + "\n");
+            System.out.println("\n" + problem.toString() + " (Enter SOLUTION to see the solution)\n");
 
             input = System.console().readLine();
+
+            switch (input.toUpperCase()) {
+                case "SOLUTION" -> System.out.println("\n" + new Solution() + "\n");
+                case "QUIT" -> {
+                    System.out.println("Thank you for using the Derivative Practice Tool!");
+                    System.exit(0);
+                }
+                default -> System.out.println("Incorrect. Please try again.\n");
+                
+            }
         }
     }
 }

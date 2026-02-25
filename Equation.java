@@ -11,6 +11,13 @@ public class Equation {
         this.right = new Expression(right, rightVar); 
     }
 
+    public Expression getLeft() {
+        return left;
+    }
+    public Expression getRight() {
+        return right;
+    }
+
     @Override
     public String toString() {
         return left.toString() + " = " + right.toString();
