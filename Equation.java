@@ -10,4 +10,9 @@ public class Equation {
         this.left = new Expression(left, leftVar);
         this.right = new Expression(right, rightVar); 
     }
+
+    @Override
+    public String toString() {
+        return left.toString() + " = " + right.toString();
+    }
 }

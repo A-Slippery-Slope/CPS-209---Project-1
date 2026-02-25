@@ -1,7 +1,9 @@
+import java.util.ArrayList;
+
 public class Expression {
     private Polynomial[] terms;
-    private Types type;
-    private char variable;
+    private final Types type;
+    private final char variable;
     
     public Expression(Types type, char variable) {
         this.type = type;
@@ -15,6 +17,10 @@ public class Expression {
                 break;
             case DEPENDANT:
                 this.terms = new Polynomial[1];
+                ArrayList<Integer> coeffs = new ArrayList<>();
+                coeffs.add(0);
+                coeffs.add(1);
+                terms[0] = new Polynomial(coeffs, variable);
                 break;
             case POLYNOMIAL:
                 this.terms = new Polynomial[1];
@@ -23,7 +29,7 @@ public class Expression {
                 throw new AssertionError();
         }
 
-        randomizeTerms();
+        if (type != Types.DEPENDANT) randomizeTerms();
     }
 
     public Polynomial getTerm(int k) {
@@ -35,16 +41,35 @@ public class Expression {
         return type;
     }
 
+    public char getVariable() {
+        return variable;
+    }
+
     public void randomizeTerms() {
         for (int i = 0; i < terms.length; i++) {
-            int degree = (int)(Math.random() * 5) + 1;
-            int[] coeffs = new int[degree + 1];
+            int degree = (int)(Math.random() * 4) + 2;
+            ArrayList<Integer> coeffs = new ArrayList<>();
 
-            for (int j = 0; j < coeffs.length; j++) {
-                coeffs[j] = (int)(Math.random() * 20) - 10;
+            for (int j = 0; j < degree + 1; j++) {
+                coeffs.add((int)(Math.random() * 20) - 10);
             }
 
             terms[i] = new Polynomial(coeffs, variable);
         }
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        
+        switch (type) {
+            case MULTIPLICATION -> str = "(" + terms[0].toString() + ") * (" + terms[1].toString() + ")";
+            case QUOTIENT -> str = "(" + terms[0].toString() + ") / (" + terms[1].toString() + ")";
+            case DEPENDANT -> str = terms[0].toString();
+            case POLYNOMIAL -> str = terms[0].toString();
+            default -> throw new AssertionError();
+        }
+
+        return str;
     }
 }

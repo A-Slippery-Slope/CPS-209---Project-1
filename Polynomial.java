@@ -32,6 +32,11 @@ public class Polynomial extends Function {
         if (k < 0 || k > coeff.size() - 1) return 0;
         return coeff.get(k);
     }
+
+    public void scaleCoefficient(int k, int scalar) {
+        if (k < 0 || k > coeff.size() - 1) return;
+        coeff.set(k, coeff.get(k) * scalar);
+    }
     
     public long evaluate(int x)
     {
@@ -45,6 +50,10 @@ public class Polynomial extends Function {
         }
 
         return sum;
+    }
+
+    public void reduceDegree() {
+        coeff.remove(0);
     }
 
     public Polynomial add(Polynomial other) 
@@ -68,12 +77,12 @@ public class Polynomial extends Function {
     {
         String str = "";
 
-        str += coeff[coeff.length - 1];
-        if (coeff.length - 1 >= 1) str += variable;
-        if (coeff.length - 1 > 1) str += "^" + (coeff.length - 1);
-        for (int i = coeff.length - 2; i >= 0; i--) {
-            if (coeff[i] != 0) {
-                str += coeff[i] < 0 ? " - " + Math.abs(coeff[i]) : " + " + coeff[i];
+        if (coeff.get(coeff.size() - 1) != 1 || coeff.size() == 1) str += coeff.get(coeff.size() - 1);
+        if (coeff.size() - 1 >= 1) str += variable;
+        if (coeff.size() - 1 > 1) str += "^" + (coeff.size() - 1);
+        for (int i = coeff.size() - 2; i >= 0; i--) {
+            if (coeff.get(i) != 0) {
+                str += coeff.get(i) < 0 ? " - " + Math.abs(coeff.get(i)) : " + " + coeff.get(i);
                 if (i >= 1) str += variable;
                 if (i > 1) str += "^" + i;
             }
