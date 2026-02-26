@@ -1,21 +1,22 @@
 public class PowerRule implements Rule {
-    public static boolean apply(Expression expression, char varRespectTo) {
+    public static boolean apply(Expression expression) {
         if (!isValid(expression)) return false;
 
-        if (expression.getVariable() != varRespectTo) {
-            while (expression.getTerm(0).getDegree() > 1) expression.getTerm(0).reduceDegree();
-            expression.getTerm(0).scaleCoefficient(0, 0);
-            return true;
-        }
-
         expression.getTerm(0).reduceDegree();
-        for (int i = 0; i < expression.getTerm(0).getDegree(); i++) {
+        for (int i = 0; i < expression.getTerm(0).getDegree() + 1; i++) {
             expression.getTerm(0).scaleCoefficient(i, i + 1);
         }
+        if (expression.getType() == Types.MULTIPLICATION || expression.getType() == Types.QUOTIENT) {
+            expression.getTerm(1).reduceDegree();
+            for (int i = 0; i < expression.getTerm(1).getDegree() + 1; i++) {
+                expression.getTerm(1).scaleCoefficient(i, i + 1);
+            }
+        }
+
         return true;
     }
 
     public static boolean isValid(Expression expression) {
-        return expression.getType() == Types.POLYNOMIAL;
+        return expression.getType() == Types.POLYNOMIAL || expression.getType() == Types.MULTIPLICATION || expression.getType() == Types.QUOTIENT;
     }
 }

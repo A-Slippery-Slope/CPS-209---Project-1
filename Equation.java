@@ -18,6 +18,10 @@ public class Equation {
         return right;
     }
 
+    public String differentiate() {
+        return left.showDerivative(right.getVariable()) + " = " + right.showDerivative(right.getVariable());
+    }
+
     @Override
     public String toString() {
         return left.toString() + " = " + right.toString();

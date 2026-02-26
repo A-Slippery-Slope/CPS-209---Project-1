@@ -2,11 +2,11 @@ public class Display {
     public Display() {
         String input = "";
         
-        System.out.println("Welcome to the Derivative Practice Tool!");
+        System.out.println("\nWelcome to the Derivative Practice Tool!");
         System.out.println("Enter 'quit' to stop the program at any time.\n");
 
         while (!input.toLowerCase().equals("quit")) {
-            System.out.println("Enter the type of problem you want to practice (Types: MULTIPLICATION, QUOTIENT, DEPENDANT, POLYNOMIAL, RANDOM): ");
+            System.out.println("Enter the type of problem you want to practice (Types: MULTIPLICATION, QUOTIENT, POLYNOMIAL, RANDOM):\n");
             input = System.console().readLine();
 
             Problem problem = null;
@@ -17,27 +17,40 @@ public class Display {
                 case "POLYNOMIAL" -> problem = new Problem(Types.POLYNOMIAL);
                 case "RANDOM" -> problem = new Problem();
                 case "QUIT" -> {
-                    System.out.println("Thank you for using the Derivative Practice Tool!");
+                    System.out.println("\nThank you for using the Derivative Practice Tool!");
                     System.exit(0);
                 }
                 default -> {
-                    System.out.println("Invalid input. Please try again.\n");
+                    System.out.println("\nInvalid input. Please try again.\n");
                     continue;
                 }
             }
 
-            System.out.println("\n" + problem.toString() + " (Enter SOLUTION to see the solution)\n");
+            Solution solution = new Solution(problem);
 
-            input = System.console().readLine();
+            while (!input.toLowerCase().equals("quit") && !input.toLowerCase().equals("solution")) {
+                System.out.println("\n" + problem.toString() + " Make sure to simplify your answer (Enter SOLUTION to see the solution).\n");
 
-            switch (input.toUpperCase()) {
-                case "SOLUTION" -> System.out.println("\n" + new Solution() + "\n");
-                case "QUIT" -> {
-                    System.out.println("Thank you for using the Derivative Practice Tool!");
-                    System.exit(0);
+                input = System.console().readLine();
+
+                switch (input.toUpperCase()) {
+                    case "SOLUTION" -> {
+                        System.out.println("\n" + solution + "\n");
+                        input = "solution";
+                    }
+                    case "QUIT" -> {
+                        System.out.println("\nThank you for using the Derivative Practice Tool!");
+                        System.exit(0);
+                    }
+                    default -> {
+                        if (solution.isCorrect(input)) {
+                            System.out.println("\nCorrect! Great job.\n");
+                            input = "solution";
+                        } 
+                        else System.out.println("\nIncorrect. Please try again.\n");
+                    }
+                    
                 }
-                default -> System.out.println("Incorrect. Please try again.\n");
-                
             }
         }
     }

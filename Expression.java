@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Expression {
     private Polynomial[] terms;
-    private final Types type;
+    private Types type;
     private final char variable;
     
     public Expression(Types type, char variable) {
@@ -37,8 +37,17 @@ public class Expression {
         return terms[k];
     }
 
+    public void setTerm(int k, Polynomial term) {
+        if (k < 0 || k > terms.length - 1) return;
+        terms[k] = term;
+    }
+
     public Types getType() {
         return type;
+    }
+    public void multToPoly() {
+        this.type = Types.POLYNOMIAL;
+        this.terms = new Polynomial[] {terms[0]};
     }
 
     public char getVariable() {
@@ -47,7 +56,7 @@ public class Expression {
 
     public void randomizeTerms() {
         for (int i = 0; i < terms.length; i++) {
-            int degree = (int)(Math.random() * 4) + 2;
+            int degree = (int)(Math.random() * 3) + 2;
             ArrayList<Integer> coeffs = new ArrayList<>();
 
             for (int j = 0; j < degree + 1; j++) {
@@ -58,11 +67,11 @@ public class Expression {
         }
     }
 
-    public String showDerivative() {
+    public String showDerivative(char variable) {
         String str = "";
         switch (type) {
             case MULTIPLICATION -> str = "(" + terms[0] + ")' * (" + terms[1] + ") + (" + terms[0] + ") * (" + terms[1] + ")'";
-            case QUOTIENT -> str = "(" + terms[0] + ")' * (" + terms[1] + ") - (" + terms[0] + ") * (" + terms[1] + ")' / (" + terms[1] + ")^2";
+            case QUOTIENT -> str = "((" + terms[0] + ")' * (" + terms[1] + ") - (" + terms[0] + ") * (" + terms[1] + ")') / (" + terms[1] + ")^2";
             case DEPENDANT -> str = "dy/d" + variable;
             case POLYNOMIAL -> str = "d/d" + variable + "(" + toString() + ")";
         }

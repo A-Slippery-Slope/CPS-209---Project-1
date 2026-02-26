@@ -10,7 +10,9 @@ public class Problem {
         leftType = Types.DEPENDANT;
         leftVar = 'y';
 
-        rightType = Types.values()[(int)(Math.random() * Types.values().length)];
+        while (rightType == null || rightType == Types.DEPENDANT) {
+            rightType = Types.values()[(int)(Math.random() * Types.values().length)];
+        }
         rightVar = (char)((int)(Math.random() * 3) + 118);
 
         generateProblem();
