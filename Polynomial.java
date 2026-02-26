@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Polynomial extends Function {
     private ArrayList<Integer> coeff;
     private final char variable;
     
+    // Creates a polynomial with the given coefficients, where the coefficient at index k is the coefficient of the variable to the power of k.
     public Polynomial(ArrayList<Integer> coefficients, char variable) {
         this.variable = variable;
         coeff = removeZeros(coefficients);
@@ -12,6 +14,7 @@ public class Polynomial extends Function {
         function = this.toString();
     }
 
+    // Removes the zeros at the end of the list of coefficients.
     private ArrayList<Integer> removeZeros(ArrayList<Integer> coefficients) {
         int length = coefficients.size();
         if (length == 0) return new ArrayList<>(Arrays.asList(0));
@@ -23,6 +26,7 @@ public class Polynomial extends Function {
         return new ArrayList<>(coefficients.subList(0, length));
     }
     
+    // Getters
     public int getDegree() {
         return coeff.size() - 1;
     }
@@ -31,32 +35,28 @@ public class Polynomial extends Function {
         return coeff.get(k);
     }
 
+    // Scales the coefficient at index k by the given scalar.
     public void scaleCoefficient(int k, int scalar) {
         if (k < 0 || k > coeff.size() - 1) return;
         coeff.set(k, coeff.get(k) * scalar);
     }
-    
-    public long evaluate(int x) {
-        long sum = 0;
-        for (int i = 0; i < coeff.size(); i++) {
-            long temp = 1;
-            for (int j = 0; j < i; j++) {
-                temp *= x;
-            }
-            sum += temp * coeff.get(i);
-        }
 
-        return sum;
-    }
-
+    // Reduces the degree of the polynomial by 1, removing the coefficient at index 0 and shifting all other coefficients down by 1.
     public void reduceDegree() {
         coeff.remove(0);
     }
 
+    // Adds, subtracts, or multiplies this polynomial with another polynomial, returning a new polynomial as the result. 
+    // If the variables of the two polynomials are different, the method will call the corresponding method in the Function class instead.
     public Polynomial add(Polynomial other) {
         if (this.variable != other.variable) { 
             super.add(other); 
             return this;
+        }
+        if (this.equals(other)) {
+            ArrayList<Integer> doubled = new ArrayList<>();
+            for (int i = 0; i < coeff.size(); i++) doubled.add(coeff.get(i) * 2);
+            return new Polynomial(doubled, variable);
         }
         ArrayList<Integer> added = new ArrayList<>(coeff);
 
@@ -72,6 +72,7 @@ public class Polynomial extends Function {
             super.subtract(other); 
             return this;
         }
+        if (this.equals(other)) return new Polynomial(new ArrayList<>(), variable);
         ArrayList<Integer> subtracted = new ArrayList<>(coeff);
 
         for (int i = 0; i < other.coeff.size(); i++) {
@@ -99,13 +100,13 @@ public class Polynomial extends Function {
         return new Polynomial(multiplied, variable);
     }
 
+    // Checks if this polynomial is equal to another polynomial, meaning they have the same variable, degree, and coefficients.
     @Override
     public boolean equals(Object other) {
-        if (other instanceof Polynomial) {
-            Polynomial o = (Polynomial) other;
+        if (other instanceof Polynomial o) {
             if (this.variable != o.variable || this.getDegree() != o.getDegree()) return false;
             for (int i = 0; i < coeff.size(); i++) {
-                if (this.coeff.get(i) != o.coeff.get(i)) return false;
+                if (!Objects.equals(this.coeff.get(i), o.coeff.get(i))) return false;
             }
             return true;
         }
@@ -113,6 +114,7 @@ public class Polynomial extends Function {
         return false;
     }
 
+    // Specific toString for a Polynomial
     @Override 
     public String toString() {
         String str = "";

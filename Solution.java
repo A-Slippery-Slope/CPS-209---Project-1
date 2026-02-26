@@ -2,6 +2,7 @@ public class Solution {
     private Equation solution;
     private String steps;
 
+    // Creates a solution for the given problem and generates the steps to solve it.
     public Solution(Problem problem) {
         this.solution = problem.getEquation();
         this.steps = "";
@@ -29,6 +30,7 @@ public class Solution {
         steps += "3. dy/d" + solution.getRight().getVariable() + " = " + solution.getRight() + "\n";
     }
     
+    // Checks if the given answer is correct by comparing it to the solution's right expression, ignoring whitespace and case.
     public boolean isCorrect(String answer) {
         answer = answer.replaceAll("\\s+", "").toLowerCase();
         String correct = solution.getRight().toString().replaceAll("\\s+", "");
@@ -36,7 +38,8 @@ public class Solution {
         
         return answer.equals(correct) || answer.equals(altCorrect);
     }
-
+    
+    // Getter
     public Equation getSolution() {
         return solution;
     }

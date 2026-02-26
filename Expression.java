@@ -5,6 +5,7 @@ public class Expression {
     private Types type;
     private final char variable;
     
+    // Creates an expression of the given type and variable. If the type is not DEPENDANT, the terms are randomized.
     public Expression(Types type, char variable) {
         this.type = type;
         this.variable = variable;
@@ -32,6 +33,7 @@ public class Expression {
         if (type != Types.DEPENDANT) randomizeTerms();
     }
 
+    // Getters and setters
     public Polynomial getTerm(int k) {
         if (k < 0 || k > terms.length - 1) return null;
         return terms[k];
@@ -41,19 +43,22 @@ public class Expression {
         if (k < 0 || k > terms.length - 1) return;
         terms[k] = term;
     }
-
     public Types getType() {
         return type;
     }
-    public void multToPoly() {
-        this.type = Types.POLYNOMIAL;
-        this.terms = new Polynomial[] {terms[0]};
-    }
-
     public char getVariable() {
         return variable;
     }
 
+    // Converts the expression to a polynomial, which is only valid if the expression is currently a multiplication.
+    public void multToPoly() {
+        if (type != Types.MULTIPLICATION) return;
+        
+        this.type = Types.POLYNOMIAL;
+        this.terms = new Polynomial[] {terms[0]};
+    }
+
+    // Randomizes the coefficients of the terms in the expression.
     public void randomizeTerms() {
         for (int i = 0; i < terms.length; i++) {
             int degree = (int)(Math.random() * 3) + 2;
@@ -67,6 +72,7 @@ public class Expression {
         }
     }
 
+    // Returns a string showing the derivative of this expression.
     public String showDerivative(char variable) {
         String str = "";
         switch (type) {

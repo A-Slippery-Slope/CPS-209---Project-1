@@ -1,4 +1,5 @@
 public class PowerRule implements Rule {
+    // Applies the power rule to the given expression, which must be a polynomial, multiplication, or quotient.
     public static boolean apply(Expression expression) {
         if (!isValid(expression)) return false;
 
