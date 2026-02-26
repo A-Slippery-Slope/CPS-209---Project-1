@@ -99,6 +99,20 @@ public class Polynomial extends Function {
         return new Polynomial(multiplied, variable);
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Polynomial) {
+            Polynomial o = (Polynomial) other;
+            if (this.variable != o.variable || this.getDegree() != o.getDegree()) return false;
+            for (int i = 0; i < coeff.size(); i++) {
+                if (this.coeff.get(i) != o.coeff.get(i)) return false;
+            }
+            return true;
+        }
+        
+        return false;
+    }
+
     @Override 
     public String toString() {
         String str = "";
