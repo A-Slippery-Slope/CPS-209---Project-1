@@ -8,10 +8,12 @@ public class Polynomial extends Function {
     
     // Creates a polynomial with the given coefficients, where the coefficient at index k is the coefficient of the variable to the power of k.
     public Polynomial(ArrayList<Integer> coefficients, char variable) {
+        super();
         this.variable = variable;
         coeff = removeZeros(coefficients);
 
-        function = this.toString();
+        super.setFunction(this.toString());
+        super.add(this);
     }
 
     // Removes the zeros at the end of the list of coefficients.

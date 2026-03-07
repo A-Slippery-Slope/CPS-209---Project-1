@@ -6,28 +6,30 @@ public class Solution {
     public Solution(Problem problem) {
         this.solution = problem.getEquation();
         this.steps = "";
-
-        steps += "\nThe solution steps are:\n1. " + solution.differentiate();
+        String beforeDerivative = solution.differentiate();
+        
+        steps += "\nThe solution steps are:";
 
         switch (solution.getRight().getType()) {
             case MULTIPLICATION -> {
-                steps += "\n2. Use the product rule: (f * g)' = f' * g + f * g'\n";
+                steps += "\n1. Use the product rule: (f * g)' = f' * g + f * g'";
 
                 ProductRule.apply(solution.getRight());
             }
             case QUOTIENT -> {
-                steps += "\n2. Use the quotient rule: (f / g)' = (f' * g - f * g') / g^2\n";
+                steps += "\n1. Use the quotient rule: (f / g)' = (f' * g - f * g') / g^2";
 
                 QuotientRule.apply(solution.getRight());
             }
             case POLYNOMIAL -> {
-                steps += "\n2. Use the power rule: (x^n)' = n * x^(n-1)\n";
+                steps += "\n1. Use the power rule: (x^n)' = n * x^(n-1)";
 
                 PowerRule.apply(solution.getRight());
             }
         }
 
-        steps += "3. dy/d" + solution.getRight().getVariable() + " = " + solution.getRight() + "\n";
+        steps += "\n2. " + beforeDerivative;
+        steps += "\n3. dy/d" + solution.getRight().getVariable() + " = " + solution.getRight() + "\n";
     }
     
     // Checks if the given answer is correct by comparing it to the solution's right expression, ignoring whitespace and case.

@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Function {
-    protected static String function;
-    protected static ArrayList<Function> terms;
+    private static String function;
+    private static ArrayList<Function> terms;
     
     // Default constructor, creates an empty function.
     public Function() {
@@ -15,6 +15,11 @@ public class Function {
     public Function(Function other) {
         terms.add(other);
         function = other.toString();
+    }
+
+    // Setter
+    public void setFunction(String function) {
+        this.function = function;
     }
 
     // Adds, subtracts, multiplies, or divides this function with another function.
